@@ -11,3 +11,6 @@ allocator_test: $(SRC) $(HDR)
 tests.done: allocator_test
 	./allocator_test
 	touch tests.done
+
+clean:
+	rm -f *.o allocator_test tests.done
