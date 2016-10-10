@@ -23,8 +23,16 @@ void Message::append(const char *msg, size_t size)
 
 void Message::clear()
 {
+    for (auto msg: blocks) free(msg);
     blocks.clear();
     blocks_size.clear();
+}
+
+bool Message::is_complete() const
+{
+    char * p = blocks.back();
+    size_t n = blocks_size.back();
+    return p[n - 1] == '\n';
 }
 
 std::ostream& operator<< (std::ostream& out, const Message& msg)
@@ -35,11 +43,4 @@ std::ostream& operator<< (std::ostream& out, const Message& msg)
     out << message;
     out.flush();
     return out;
-}
-
-Message& Message::operator+= (const Message& msg)
-{
-    blocks.insert(blocks.end(), msg.blocks.begin(), msg.blocks.end());
-    blocks_size.insert(blocks_size.end(), msg.blocks_size.begin(), msg.blocks_size.end());
-    return *this;
 }

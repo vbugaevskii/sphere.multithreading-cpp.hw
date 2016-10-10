@@ -36,8 +36,6 @@ private:
     fd_set select_fd[2];
 
     Message messages[2];
-
-    bool need_to_send;
 };
 
 #endif //P2_CLIENT_H

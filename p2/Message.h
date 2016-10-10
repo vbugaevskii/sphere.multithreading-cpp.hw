@@ -22,17 +22,10 @@ public:
 
     char * get_block(size_t i) const { return blocks[i]; }
     size_t get_block_size(size_t i) const { return blocks_size[i]; }
-
     size_t size() const { return blocks.size(); }
-    bool is_complete() const {
-        char * p = blocks.back();
-        size_t n = blocks_size.back();
-        return p[n - 1] == '\n';
-    }
+    bool is_complete() const;
 
     friend std::ostream& operator<< (std::ostream& out, const Message& msg);
-
-    Message& operator+= (const Message& msg);
 
     ~Message();
 

@@ -12,17 +12,25 @@ int main() {
     }
     catch (const std::system_error& error)
     {
-        if (server) delete server;
+        if (server)
+        {
+            delete server;
+            server = NULL;
+        }
         std::cout << "Error: " << error.code()
                   << " - " << error.code().message() << '\n';
     }
     catch (char const * error)
     {
-        if (server) delete server;
+        if (server)
+        {
+            delete server;
+            server = NULL;
+        }
         std::cout << error << std::endl;
     }
 
-    server = NULL;
+
 
     return 0;
 }
