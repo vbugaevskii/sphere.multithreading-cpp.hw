@@ -38,4 +38,6 @@ private:
     Message messages[2];
 };
 
+int set_nonblock(int fd);
+
 #endif //P2_CLIENT_H
