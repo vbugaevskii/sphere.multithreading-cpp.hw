@@ -62,12 +62,11 @@ void Allocator::defrag()
         else
         {
             size_t offset = it->get_offset();
-
             it->set_offset(block_offset);
-            block_offset += offset;
 
             // move memory
             memmove(p_buffer + block_offset, p_buffer + offset, it->get_length());
+            block_offset += it->get_length();
         }
     }
 
