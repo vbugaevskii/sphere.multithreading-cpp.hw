@@ -15,12 +15,6 @@ ParserConfigFile::ParserConfigFile(const std::string &f_name)
     config.close();
 }
 
-/* ParserConfigFile::pair_addr& ParserConfigFile::operator() (unsigned short key)
-{
-    size_t index = std::rand() % config_map[key].size();
-    return config_map[key][index];
-} */
-
 void ParserConfigFile::parse_config_file(std::ifstream& config)
 {
     std::string str_line, str_port, str_ip;
