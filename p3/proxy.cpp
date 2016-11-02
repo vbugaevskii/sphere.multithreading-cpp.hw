@@ -14,7 +14,16 @@ void Connection::start(const std::string& server_ip, unsigned short server_port)
 void Connection::stop(const error_code& error)
 {
     if (error)
+    {
         std::cout << "Error " << error.value() << ": " << error.message() << std::endl;
+        if (error.value() == 2)
+        {
+            if (server_buffer[0])
+                do_write_to_client(strlen(server_buffer));
+            if (client_buffer[0])
+                do_write_to_server(strlen(client_buffer));
+        }
+    }
 
     if (is_active)
     {
@@ -56,7 +65,6 @@ void Connection::handle_read_from_server(const error_code& error, size_t size)
 
 void Connection::handle_write_to_server(const error_code& error)
 {
-
     if (error)
         stop(error);
     else
