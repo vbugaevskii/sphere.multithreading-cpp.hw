@@ -155,7 +155,7 @@ void ProxyPortListener::do_accept_connection(boost::shared_ptr<Connection> conne
 
 Proxy::Proxy(const std::string& config_) : config(config_)
 {
-    srand(time(0));
+    std::srand(std::time(nullptr));
 
     for (auto port : config.get_ports())
         ports.push_back(ProxyPortListener::instance(ios, port, config[port]));
