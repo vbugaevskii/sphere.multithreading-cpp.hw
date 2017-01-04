@@ -10,10 +10,8 @@
 // This function allows to pass last test
 bool is_operator(std::string& s) { return s == "||" || s == "&&" || s == "|" || s == "&"; }
 
-
 pid_t master_pid, shell_pid;
 std::set<pid_t> slave_pids;
-
 
 void handler(int signum)
 {
@@ -31,7 +29,6 @@ void handler(int signum)
             exit(1);
     }
 }
-
 
 void run(std::vector<Operand *>& operands)
 {
@@ -59,7 +56,6 @@ void run(std::vector<Operand *>& operands)
         }
     }
 }
-
 
 int main()
 {
