@@ -99,6 +99,8 @@ public:
     static const size_t HASH_TABLE_SIZE = 256;
     static const size_t BUFFER_SIZE = 2048;
 
+    static const size_t TOTAL_MEM_SIZE = (HASH_TABLE_SIZE + 1) * sizeof(int) + BUFFER_SIZE * sizeof(Node);
+
 private:
     void *p_mem;
     Node *p_data;

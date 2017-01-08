@@ -44,13 +44,10 @@ int main(int argc, char *argv[])
 {
     worker_id = atoi(argv[1]);
 
-    size_t HASH_TABLE_SIZE = (HashTable::HASH_TABLE_SIZE + 1) * sizeof(int) +
-                             HashTable::BUFFER_SIZE * sizeof(Node);
-
     key_t key = ftok("./message", 'b');
     msgid = msgget(key, 0666);
 
-    shmid = shmget(key, HashTable::HASH_TABLE_SIZE, 0666);
+    shmid = shmget(key, HashTable::TOTAL_MEM_SIZE, 0666);
     shmaddr = shmat(shmid, NULL, 0);
 
     semid = semget(key, HashTable::NUM_SECTIONS, 0666);

@@ -2,11 +2,9 @@
 
 void Server::init_worker_resources()
 {
-    size_t size = HashTable::HASH_TABLE_SIZE * sizeof(Node *) + HashTable::BUFFER_SIZE * sizeof(Node);
-
     key_t key = ftok("./message", 'b');
     msgid = msgget(key, 0666 | IPC_CREAT);
-    shmid = shmget(key, size, 0666 | IPC_CREAT);
+    shmid = shmget(key, HashTable::TOTAL_MEM_SIZE, 0666 | IPC_CREAT);
     semid = semget(key, HashTable::NUM_SECTIONS, 0666 | IPC_CREAT);
 
     for (int i = 0; i < NUM_WORKERS; i++)
