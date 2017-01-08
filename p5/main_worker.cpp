@@ -73,8 +73,9 @@ int main(int argc, char *argv[])
                     break;
 
                 case GET:
-                    sem_wait(sem_id);
+                    sem_up(sem_id);
                     msg.value = hash_table.get(msg.key);
+                    sem_down(sem_id);
                     break;
 
                 case DEL:
