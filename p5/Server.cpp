@@ -7,6 +7,10 @@ void Server::init_worker_resources()
     shmid = shmget(key, HashTable::TOTAL_MEM_SIZE, 0666 | IPC_CREAT);
     semid = semget(key, HashTable::NUM_SECTIONS, 0666 | IPC_CREAT);
 
+    void *shmaddr = shmat(shmid, NULL, 0);
+    HashTable::shared_memory_set(shmaddr);
+    shmdt(shmaddr);
+
     for (int i = 0; i < NUM_WORKERS; i++)
     {
         if (fork() == 0)

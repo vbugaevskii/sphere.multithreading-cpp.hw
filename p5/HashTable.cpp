@@ -4,19 +4,8 @@ HashTable::HashTable(void *shmaddr)
 {
     // God bless me for such unappropriate use of pointers
     p_mem = shmaddr;
-
     p_table = static_cast<int *>(p_mem);
-    for (int i = 0; i < HASH_TABLE_SIZE; i++)
-        p_table[i] = -1;
-    set_num_free_node(0);
-
     p_data = reinterpret_cast<Node *>(&p_table[HASH_TABLE_SIZE+1]);
-
-    for (int i = 0; i < BUFFER_SIZE; i++)
-    {
-        p_data[i].n_prev = (i > 0) ? i-1: -1;
-        p_data[i].n_next = (i < BUFFER_SIZE - 1) ? i+1: -1;
-    }
 }
 
 void HashTable::set(int key, int value)

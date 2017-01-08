@@ -74,6 +74,25 @@ class HashTable
 public:
     HashTable(void *shmaddr);
 
+    static void shared_memory_set(void *shmaddr)
+    {
+        // God bless me for such unappropriate use of pointers
+        void *p_mem = shmaddr;
+
+        int *p_table = static_cast<int *>(p_mem);
+        for (int i = 0; i < HashTable::HASH_TABLE_SIZE; i++)
+            p_table[i] = -1;
+        p_table[HashTable::HASH_TABLE_SIZE] = 0;
+
+        Node *p_data = reinterpret_cast<Node *>(&p_table[HashTable::HASH_TABLE_SIZE+1]);
+
+        for (int i = 0; i < HashTable::BUFFER_SIZE; i++)
+        {
+            p_data[i].n_prev = (i > 0) ? i-1: -1;
+            p_data[i].n_next = (i < HashTable::BUFFER_SIZE - 1) ? i+1: -1;
+        }
+    }
+
     void set(int key, int value);
     int  get(int key) const;
     void del(int key);
