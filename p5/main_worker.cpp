@@ -6,6 +6,7 @@
 
 #include "HashTable.h"
 #include "Message.h"
+#include "Server.h"
 
 static const long SERVER_MSGID = 1;
 
@@ -16,28 +17,17 @@ int worker_id;
 int msgid, shmid, semid;
 void *shmaddr;
 
-void sem_up(uint16_t i)
+void sem_up(uint16_t i, short c=1)
 {
     sops.sem_num = i;
     sops.sem_flg = 0;
-    sops.sem_op =  1;
+    sops.sem_op =  c;
     semop(semid, &sops, 1);
 }
 
-void sem_down(uint16_t i)
+void sem_down(uint16_t i, short c=1)
 {
-    sops.sem_num = i;
-    sops.sem_flg = 0;
-    sops.sem_op = -1;
-    semop(semid, &sops, 1);
-}
-
-void sem_wait(uint16_t i)
-{
-    sops.sem_num = i;
-    sops.sem_flg = 0;
-    sops.sem_op =  0;
-    semop(semid, &sops, 1);
+    sem_up(i, -c);
 }
 
 int main(int argc, char *argv[])
@@ -66,23 +56,21 @@ int main(int argc, char *argv[])
             switch (msg.op)
             {
                 case SET:
-                    sem_wait(sem_id);
-                    sem_up(sem_id);
+                    sem_down(sem_id, Server::NUM_WORKERS);
                     hash_table.set(msg.key, msg.value);
-                    sem_down(sem_id);
+                    sem_up(sem_id, Server::NUM_WORKERS);
                     break;
 
                 case GET:
-                    sem_up(sem_id);
-                    msg.value = hash_table.get(msg.key);
                     sem_down(sem_id);
+                    msg.value = hash_table.get(msg.key);
+                    sem_up(sem_id);
                     break;
 
                 case DEL:
-                    sem_wait(sem_id);
-                    sem_up(sem_id);
+                    sem_down(sem_id, Server::NUM_WORKERS);
                     hash_table.del(msg.key);
-                    sem_down(sem_id);
+                    sem_up(sem_id, Server::NUM_WORKERS);
                     break;
 
                 case QUIT:
@@ -100,6 +88,18 @@ int main(int argc, char *argv[])
             {
                 case HashTableErrorType::NoKey:     msg.err = 1; break;
                 case HashTableErrorType::NoMemory:  msg.err = 2; break;
+            }
+
+            switch (msg.op)
+            {
+                case SET:
+                case DEL:
+                    sem_up(sem_id, Server::NUM_WORKERS);
+                    break;
+                case GET:
+                    sem_up(sem_id);
+                    break;
+                default: ;
             }
         }
 

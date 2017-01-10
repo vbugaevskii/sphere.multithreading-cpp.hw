@@ -7,6 +7,12 @@ void Server::init_worker_resources()
     shmid = shmget(key, HashTable::TOTAL_MEM_SIZE, 0666 | IPC_CREAT);
     semid = semget(key, HashTable::NUM_SECTIONS, 0666 | IPC_CREAT);
 
+    ushort *init_sem = (ushort *) calloc(HashTable::NUM_SECTIONS, sizeof(ushort));
+    for (int i = 0; i < HashTable::NUM_SECTIONS; i++)
+        init_sem[i] = NUM_WORKERS;
+    semctl(semid, 0, SETALL, init_sem);
+    free(init_sem);
+
     void *shmaddr = shmat(shmid, NULL, 0);
     HashTable::shared_memory_set(shmaddr);
     shmdt(shmaddr);

@@ -21,7 +21,7 @@ int main()
 
     try
     {
-        server = new Server(3100);
+        server = new Server(3101);
         server->start();
         delete server;
     }
