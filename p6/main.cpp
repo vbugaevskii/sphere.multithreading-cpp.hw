@@ -113,11 +113,14 @@ public:
 
     void clean()
     {
+        int step = (HASH_TABLE_SIZE - 1) / NUM_SECTIONS;
+
+        size_t i = 0;
         for (int j = 0; j < NUM_SECTIONS; j++)
         {
             sem_wait(sems[j]);
 
-            for (size_t i = j * NUM_SECTIONS; i < HASH_TABLE_SIZE && i < (j + 1) * NUM_SECTIONS; i++)
+            for ( ; i / NUM_SECTIONS == j && i < NUM_SECTIONS; i++)
             {
                 NodePtr p_node(p_data, p_table[i]);
                 while (!p_node.is_null())
