@@ -30,8 +30,8 @@ public:
         return inst;
     }
 
-    ip::tcp::socket& get_server_socket() const { return server_socket; }
-    ip::tcp::socket& get_client_socket() const { return client_socket; }
+    ip::tcp::socket& get_server_socket() { return server_socket; }
+    ip::tcp::socket& get_client_socket() { return client_socket; }
 
     void start(const std::string& server_ip, unsigned short server_port);
     void stop(const error_code& error);

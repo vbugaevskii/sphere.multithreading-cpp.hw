@@ -17,8 +17,8 @@ public:
 public:
     ParserConfigFile(const std::string &f_name);
 
-    std::vector<pair_addr>& operator[] (unsigned short key) const { return config_map[key]; }
-    std::vector<unsigned short>& get_ports() const { return ports; }
+    std::vector<pair_addr>& operator[] (unsigned short key) { return config_map[key]; }
+    std::vector<unsigned short>& get_ports() { return ports; }
 
 private:
     void parse_config_file(std::ifstream& config);
