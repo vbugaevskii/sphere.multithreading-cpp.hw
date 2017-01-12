@@ -7,8 +7,8 @@ SRC_HASH=HashTable.cpp HashTable.h
 SRC_ROUTINE=Routine.cpp Routine.h
 
 all:
-	$(CC) main.cpp $(SRC_SERVER) $(SRC_WORKER) $(SRC_HASH) $(SRC_ROUTINE) -o main $(CFLAGS)
+	$(CC) main.cpp $(SRC_SERVER) $(SRC_WORKER) $(SRC_HASH) $(SRC_ROUTINE) -o server $(CFLAGS)
 
 clean:
-	rm -f *.o main
+	rm -f *.o server
 
