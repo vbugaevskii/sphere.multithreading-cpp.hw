@@ -3,3 +3,7 @@
 **Технология:** OpenCL
 
 **ОС:** Windows 10
+
+**Платформа**: Intel(R) OpenCL
+
+**Устройство**: Intel(R) HD Graphics 4600
