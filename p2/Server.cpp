@@ -60,7 +60,7 @@ Server::~Server()
 void Server::start()
 {
     while (1) {
-        int n_events = epoll_wait(master_fd , events, MAX_EVENTS, -1);
+        int n_events = epoll_wait(master_fd , events, MAX_EVENTS, 50);
 
         if (n_events == -1)
             throw std::system_error(errno, std::system_category());
